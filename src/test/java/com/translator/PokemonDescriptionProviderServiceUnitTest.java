@@ -5,13 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PokemonServiceUnitTest {
+class PokemonDescriptionProviderServiceUnitTest {
 
-    PokemonService service;
+    PokemonDescriptionProviderService service;
 
     @BeforeEach
     void setUp () {
-        service = new PokemonService();
+        service = new PokemonDescriptionProviderService();
     }
 
     @Test
@@ -22,6 +22,9 @@ class PokemonServiceUnitTest {
 
         description = service.getPokemonDescription("butterfree");
         assertThat(description).isEqualTo("My amazing butterfree");
+
+        description = service.getPokemonDescription("dummy");
+        assertThat(description).isEqualTo("No pokemon found");
     }
 
 }
