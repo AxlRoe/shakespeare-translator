@@ -1,5 +1,6 @@
 package com.translator;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,4 +29,9 @@ public class ShakespeareTranslatorServiceUnitTest {
         assertThat(translation).isEqualTo("My Amazing pokemon foo");
     }
 
+    @Test
+    @DisplayName("Given null text to translate throw exception")
+    public void givenIvalidTextToBeTranslated_throwIllegalArgumentException () {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.translate(null));
+    }
 }

@@ -1,5 +1,6 @@
 package com.translator;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,12 @@ class PokemonDescriptionProviderServiceUnitTest {
 
         description = service.getPokemonDescription("dummy");
         assertThat(description).isEqualTo("No pokemon found");
+    }
+
+    @Test
+    @DisplayName("Given null or empty pokemon's name throw exception")
+    public void givenInvalidPokemonName_throwIllegalArgumentException () {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.getPokemonDescription(null));
     }
 
 }
