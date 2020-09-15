@@ -3,6 +3,8 @@ package com.translator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class PokemonTranslatorService {
@@ -10,9 +12,13 @@ public class PokemonTranslatorService {
     private PokemonDescriptionProviderService pokemonDescriptionProviderService;
     private ShakespeareTranslatorService shakespeareTranslatorService;
 
-    public String translate(String pokemonName) {
-        String description = pokemonDescriptionProviderService.getPokemonDescription(pokemonName);
-        String translation = shakespeareTranslatorService.translate(description);
-        return translation;
+    public Optional<String> translate(String pokemonName) {
+        Optional<String> description = pokemonDescriptionProviderService.getPokemonDescription(pokemonName);
+        if (!description.isPresent()) {
+            return Optional.empty();
+        } else {
+            String translation = shakespeareTranslatorService.translate(description.get());
+            return Optional.of(translation);
+        }
     }
 }

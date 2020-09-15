@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -27,12 +29,14 @@ public class PokemonTranslatorServiceUnitTest {
     @Test
     @DisplayName("As user I want a Shakespearean description of my pokemon")
     public void givenPokemonName_getAShakespearean_description() {
-        String translation = service.translate("charizard");
-        assertThat(translation).isEqualTo("Mine most wondrous pokemon charizard");
+        Optional<String> translation = service.translate("charizard");
+        assertThat(translation).isEqualTo(Optional.of("Mine most wondrous pokemon charizard"));
 
         translation = service.translate("butterfree");
-        assertThat(translation).isEqualTo("Mine most wondrous pokemon butterfree");
+        assertThat(translation).isEqualTo(Optional.of("Mine most wondrous pokemon butterfree"));
 
+        translation = service.translate("foo");
+        assertThat(translation.isEmpty()).isTrue();
     }
 
 }
