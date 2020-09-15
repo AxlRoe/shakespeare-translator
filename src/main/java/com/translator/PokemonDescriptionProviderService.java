@@ -1,6 +1,10 @@
 package com.translator;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PokemonDescriptionProviderService {
+
     public String getPokemonDescription(String pokemonName) {
 
         if (pokemonName == null || "".equals(pokemonName)) {

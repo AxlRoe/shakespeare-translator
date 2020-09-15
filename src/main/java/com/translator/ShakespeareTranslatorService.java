@@ -1,5 +1,8 @@
 package com.translator;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ShakespeareTranslatorService {
     public String translate(String text) {
 
