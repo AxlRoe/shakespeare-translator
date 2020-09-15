@@ -1,7 +1,9 @@
 package com.translator;
 
 import com.translator.exception.PokemonDescriptionProviderException;
+import com.translator.exception.ShakespearTranslatorException;
 import com.translator.service.PokemonDescriptionProviderService;
+import com.translator.service.ShakespeareTranslatorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ public class PokemonTranslatorService {
     private PokemonDescriptionProviderService pokemonDescriptionProviderService;
     private ShakespeareTranslatorService shakespeareTranslatorService;
 
-    public Optional<String> translate(String pokemonName) throws PokemonDescriptionProviderException {
+    public Optional<String> translate(String pokemonName) throws PokemonDescriptionProviderException, ShakespearTranslatorException {
         Optional<String> description = pokemonDescriptionProviderService.getPokemonDescription(pokemonName);
         if (!description.isPresent()) {
             return Optional.empty();
