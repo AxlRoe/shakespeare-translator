@@ -20,6 +20,12 @@ public class ShakespeareTranslatorServiceUnitTest {
     public void givenAText_translateIt_asShakespeareWouldDo () {
         String translation = service.translate("My Amazing pokemon charizard");
         assertThat(translation).isEqualTo("Mine most wondrous pokemon charizard");
+
+        translation = service.translate("My Amazing pokemon butterfree");
+        assertThat(translation).isEqualTo("Mine most wondrous pokemon butterfree");
+
+        translation = service.translate("My Amazing pokemon foo");
+        assertThat(translation).isEqualTo("My Amazing pokemon foo");
     }
 
 }
