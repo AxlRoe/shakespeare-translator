@@ -17,8 +17,11 @@ class PokemonServiceUnitTest {
     @Test
     @DisplayName("As user I want to retrieve pokemon's description")
     public void givenPokemonName_retrieveItsDescription () {
-        String description = service.getPokemonDescription("foo");
-        assertThat(description).isEqualTo("My amazing pokemon");
+        String description = service.getPokemonDescription("charizard");
+        assertThat(description).isEqualTo("My amazing charizard");
+
+        description = service.getPokemonDescription("butterfree");
+        assertThat(description).isEqualTo("My amazing butterfree");
     }
 
 }
