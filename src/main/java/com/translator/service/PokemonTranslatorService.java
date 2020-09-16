@@ -1,9 +1,7 @@
-package com.translator;
+package com.translator.service;
 
 import com.translator.exception.PokemonDescriptionProviderException;
 import com.translator.exception.ShakespearTranslatorException;
-import com.translator.service.PokemonDescriptionProviderService;
-import com.translator.service.ShakespeareTranslatorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
