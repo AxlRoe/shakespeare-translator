@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.translator.transport.dto.Description;
 import com.translator.transport.dto.Language;
-import com.translator.transport.dto.PokemonDTO;
+import com.translator.transport.dto.PokemonDescriptionDTO;
 import com.translator.transport.rest.PokemonApi;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,7 +57,7 @@ public class PokemonApiIntegrationTest {
         ObjectMapper objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 
-        PokemonDTO expectedResponse = new PokemonDTO();
+        PokemonDescriptionDTO expectedResponse = new PokemonDescriptionDTO();
         Language language1 = new Language();
         language1.setName("en");
         language1.setUrl("http://test_url1");
@@ -78,13 +78,13 @@ public class PokemonApiIntegrationTest {
         this.mockServer.when(HttpRequest
                 .request()
                 .withMethod("GET")
-                .withPath("/api/v2/characteristic/charizard"))
+                .withPath("/api/v2/characteristic/1"))
                 .respond(response()
                         .withStatusCode(200)
                         .withHeaders(new Header("Content-Type", "application/json; charset=utf-8"))
                         .withBody(json(objectMapper.writeValueAsString(expectedResponse))));
 
-        PokemonDTO actualResponse = pokemonApi.getPokemonDescription("charizard").getBody();
+        PokemonDescriptionDTO actualResponse = pokemonApi.getPokemonDescription(1).getBody();
         assertThat(actualResponse.getDescriptions().size()).isEqualTo(2);
     }
 

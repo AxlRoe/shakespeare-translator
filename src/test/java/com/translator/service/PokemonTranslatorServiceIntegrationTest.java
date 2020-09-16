@@ -67,11 +67,21 @@ public class PokemonTranslatorServiceIntegrationTest {
         this.mockServer.when(HttpRequest
                 .request()
                 .withMethod("GET")
-                .withPath("/api/v2/characteristic/charizard"))
+                .withPath("/api/v2/pokemon/charizard"))
                 .respond(response()
                         .withStatusCode(200)
                         .withHeaders(new Header("Content-Type", "application/json; charset=utf-8"))
                         .withBody(json(objectMapper.writeValueAsString(expectedPokemon))));
+
+        PokemonDescriptionDTO expectedPokemonDesc = buildResponseForPokemonDescriptionService();
+        this.mockServer.when(HttpRequest
+                .request()
+                .withMethod("GET")
+                .withPath("/api/v2/characteristic/1"))
+                .respond(response()
+                        .withStatusCode(200)
+                        .withHeaders(new Header("Content-Type", "application/json; charset=utf-8"))
+                        .withBody(json(objectMapper.writeValueAsString(expectedPokemonDesc))));
 
         TranslationDTO expectedTranslation = buildResponseForShakespeareService();
         this.mockServer.when(HttpRequest
@@ -93,9 +103,9 @@ public class PokemonTranslatorServiceIntegrationTest {
         return expectedResponse;
     }
 
-    private PokemonDTO buildResponseForPokemonService () {
+    private PokemonDescriptionDTO buildResponseForPokemonDescriptionService() {
 
-        PokemonDTO expectedResponse = new PokemonDTO();
+        PokemonDescriptionDTO expectedResponse = new PokemonDescriptionDTO();
         Language language1 = new Language();
         language1.setName("en");
         language1.setUrl("http://test_url1");
@@ -113,6 +123,10 @@ public class PokemonTranslatorServiceIntegrationTest {
 
         expectedResponse.setDescriptions(Arrays.asList(desc1, desc2));
         return expectedResponse;
+    }
+
+    private PokemonDTO buildResponseForPokemonService () {
+        return new PokemonDTO(1, "charizard");
     }
 
 }

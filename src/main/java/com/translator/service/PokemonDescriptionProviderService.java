@@ -3,7 +3,9 @@ package com.translator.service;
 import com.translator.exception.PokemonDescriptionProviderException;
 import com.translator.transport.dto.Description;
 import com.translator.transport.dto.PokemonDTO;
+import com.translator.transport.dto.PokemonDescriptionDTO;
 import com.translator.transport.rest.PokemonApi;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,16 +26,22 @@ public class PokemonDescriptionProviderService {
             throw new IllegalArgumentException("Invalid pokemon name");
         }
 
-        ResponseEntity<PokemonDTO> response = pokemonApi.getPokemonDescription(pokemonName);
-        if (HttpStatus.OK.equals(response.getStatusCode())) {
-            return response.getBody().getDescriptions().stream()
+        try {
+            ResponseEntity<PokemonDTO> respPokemon = pokemonApi.getPokemon(pokemonName);
+            ResponseEntity<PokemonDescriptionDTO> respDesc = pokemonApi.getPokemonDescription(respPokemon.getBody().getId());
+            return respDesc.getBody().getDescriptions().stream()
                     .filter(d -> "en".equals(d.getLanguage().getName()))
                     .map(Description::getDescription)
                     .findFirst();
-        } else if (HttpStatus.NOT_FOUND.equals(response.getStatusCode())) {
-            return Optional.empty();
-        } else {
-            String errMsg = String.format("Something went wrong during retrieving pokemon description {}", response.getStatusCode());
+
+        } catch (FeignException.NotFound e) {
+            log.error(e.getMessage(), e.getCause());
+            String errMsg = String.format("Unknown specified pokemon %s", pokemonName);
+            throw new PokemonDescriptionProviderException(errMsg);
+
+        } catch (FeignException e) {
+            log.error(e.getMessage(), e.getCause());
+            String errMsg = String.format("Something went wrong during retrieving pokemon description: %s", e.getMessage());
             throw new PokemonDescriptionProviderException(errMsg);
         }
     }

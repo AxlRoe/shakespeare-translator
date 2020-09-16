@@ -4,7 +4,10 @@ import com.translator.exception.PokemonDescriptionProviderException;
 import com.translator.transport.dto.Description;
 import com.translator.transport.dto.Language;
 import com.translator.transport.dto.PokemonDTO;
+import com.translator.transport.dto.PokemonDescriptionDTO;
 import com.translator.transport.rest.PokemonApi;
+import feign.FeignException;
+import feign.Request;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,9 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,17 +43,20 @@ class PokemonDescriptionProviderServiceUnitTest {
     @DisplayName("As user I want to retrieve pokemon's description")
     public void givenPokemonName_retrieveItsDescription () throws PokemonDescriptionProviderException {
 
-        when(pokemonApi.getPokemonDescription("charizard")).thenReturn(buildResponse("My amazing charizard"));
+        when(pokemonApi.getPokemonDescription(1)).thenReturn(buildResponse("My amazing charizard"));
+        when(pokemonApi.getPokemon("charizard")).thenReturn(ResponseEntity.ok(new PokemonDTO(1, "charizard")));
         Optional<String> description = service.getPokemonDescription("charizard");
         assertThat(description).isEqualTo(Optional.of("My amazing charizard"));
 
-        when(pokemonApi.getPokemonDescription("butterfree")).thenReturn(buildResponse("My amazing butterfree"));
+        when(pokemonApi.getPokemonDescription(2)).thenReturn(buildResponse("My amazing butterfree"));
+        when(pokemonApi.getPokemon("butterfree")).thenReturn(ResponseEntity.ok(new PokemonDTO(2, "butterfree")));
         description = service.getPokemonDescription("butterfree");
         assertThat(description).isEqualTo(Optional.of("My amazing butterfree"));
 
-        when(pokemonApi.getPokemonDescription("dummy")).thenReturn(buildEmptyResponse());
-        description = service.getPokemonDescription("dummy");
-        assertThat(description.isEmpty()).isTrue();
+        when(pokemonApi.getPokemon("dummy"))
+                .thenThrow(new FeignException.NotFound("not found",
+                        Request.create(Request.HttpMethod.GET, "http://test", new HashMap<>(), null), null));
+        Assertions.assertThrows(PokemonDescriptionProviderException.class, () -> service.getPokemonDescription("dummy"));
     }
 
     @Test
@@ -57,8 +65,8 @@ class PokemonDescriptionProviderServiceUnitTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.getPokemonDescription(null));
     }
 
-    private ResponseEntity<PokemonDTO> buildResponse (String desc) {
-        PokemonDTO expectedResponse = new PokemonDTO();
+    private ResponseEntity<PokemonDescriptionDTO> buildResponse (String desc) {
+        PokemonDescriptionDTO expectedResponse = new PokemonDescriptionDTO();
         Language language1 = new Language();
         language1.setName("en");
         language1.setUrl("http://test_url1");
@@ -79,8 +87,8 @@ class PokemonDescriptionProviderServiceUnitTest {
         return ResponseEntity.ok(expectedResponse);
     }
 
-    private ResponseEntity<PokemonDTO> buildEmptyResponse () {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new PokemonDTO());
+    private ResponseEntity<PokemonDescriptionDTO> buildEmptyResponse () {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new PokemonDescriptionDTO());
     }
 
 }

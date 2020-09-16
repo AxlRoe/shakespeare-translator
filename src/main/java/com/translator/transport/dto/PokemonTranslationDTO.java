@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class PokemonDTO {
-    private int id;
+public class PokemonTranslationDTO {
     private String name;
+    private String description;
 }
