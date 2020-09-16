@@ -1,0 +1,108 @@
+bb14482a27ffdc37c50262e5f174f77c0ad8ac8f Added run script
+run.sh
+
+03e23161a2157798ed085fee213e31ed21cac99c dockerize application
+Dockerfile
+pom.xml
+
+bb76a93011550165536d6cd7474f2a5127d6f7aa Implemented rest call /pokemon/<pokemon name>
+pom.xml
+src/main/java/com/translator/controller/PokemonTranslatorController.java
+src/main/java/com/translator/service/PokemonDescriptionProviderService.java
+src/main/java/com/translator/transport/dto/PokemonDTO.java
+src/main/java/com/translator/transport/dto/PokemonDescriptionDTO.java
+src/main/java/com/translator/transport/dto/PokemonTranslationDTO.java
+src/main/java/com/translator/transport/rest/PokemonApi.java
+src/main/resources/application.properties
+src/test/java/com/translator/controller/PokemonTranslatorControllerUnitTest.java
+src/test/java/com/translator/service/PokemonApiIntegrationTest.java
+src/test/java/com/translator/service/PokemonDescriptionProviderServiceUnitTest.java
+src/test/java/com/translator/service/PokemonTranslatorServiceIntegrationTest.java
+
+c35222a3a766c93cead24deee0058476ea1bd98b Translate description of pokemon using rest calls
+pom.xml
+src/main/java/com/translator/PokemonTranslatorService.java
+src/main/java/com/translator/service/PokemonTranslatorService.java
+src/test/java/com/translator/service/PokemonApiIntegrationTest.java
+src/test/java/com/translator/service/PokemonTranslatorServiceIntegrationTest.java
+src/test/java/com/translator/service/TranslatorApiIntegrationTest.java
+src/test/resources/test-config.properties
+
+20f8dcd758619c6f67311d9ff196880744b2644b Introduce feign client to translate pokemon description
+src/main/java/com/translator/PokemonTranslatorService.java
+src/main/java/com/translator/ShakespeareTranslatorService.java
+src/main/java/com/translator/exception/ShakespearTranslatorException.java
+src/main/java/com/translator/service/ShakespeareTranslatorService.java
+src/main/java/com/translator/transport/dto/TranslationCallStatus.java
+src/main/java/com/translator/transport/dto/TranslationContent.java
+src/main/java/com/translator/transport/dto/TranslationDTO.java
+src/main/java/com/translator/transport/rest/TranslatorApi.java
+src/main/resources/application.properties
+src/test/java/com/translator/PokemonTranslatorServiceUnitTest.java
+src/test/java/com/translator/ShakespeareTranslatorServiceUnitTest.java
+src/test/java/com/translator/service/ShakespeareTranslatorServiceUnitTest.java
+
+5afd03fa02d6d788e5c5eb5353304f14db361a2c Introduce feign client to retrieve pokemon informations
+pom.xml
+src/main/java/com/translator/Application.java
+src/main/java/com/translator/PokemonDescriptionProviderService.java
+src/main/java/com/translator/PokemonTranslatorService.java
+src/main/java/com/translator/exception/PokemonDescriptionProviderException.java
+src/main/java/com/translator/service/PokemonDescriptionProviderService.java
+src/main/java/com/translator/transport/dto/Description.java
+src/main/java/com/translator/transport/dto/HighestStat.java
+src/main/java/com/translator/transport/dto/Language.java
+src/main/java/com/translator/transport/dto/PokemonDTO.java
+src/main/java/com/translator/transport/rest/PokemonApi.java
+src/main/resources/application.properties
+src/test/java/com/translator/PokemonDescriptionProviderServiceUnitTest.java
+src/test/java/com/translator/PokemonTranslatorServiceUnitTest.java
+src/test/java/com/translator/service/PokemonDescriptionProviderServiceUnitTest.java
+target/classes/application.properties
+target/classes/com/translator/Application.class
+target/classes/logback-spring.xml
+
+d79f11f898751d535cfa435dd34c8549faf8c5f5 change return value in Optional<String> for pokemon/translator services
+src/main/java/com/translator/PokemonDescriptionProviderService.java
+src/main/java/com/translator/PokemonTranslatorService.java
+src/test/java/com/translator/PokemonDescriptionProviderServiceUnitTest.java
+src/test/java/com/translator/PokemonTranslatorServiceUnitTest.java
+
+b244b2a80864040af5d6206d34c9cbab96d9327b As user I want description of pokemon made by Shakespeare
+src/main/java/com/translator/PokemonDescriptionProviderService.java
+src/main/java/com/translator/PokemonTranslatorService.java
+src/main/java/com/translator/ShakespeareTranslatorService.java
+src/test/java/com/translator/PokemonTranslatorServiceUnitTest.java
+
+bff1fcfdcba3403fea347b970a4c0bd71bbe988b Added paramter validation tests for both services
+src/main/java/com/translator/PokemonDescriptionProviderService.java
+src/main/java/com/translator/ShakespeareTranslatorService.java
+src/test/java/com/translator/PokemonDescriptionProviderServiceUnitTest.java
+src/test/java/com/translator/ShakespeareTranslatorServiceUnitTest.java
+
+379b19faa0dedce207353ec28a242f7b13599dde As user I want to retrieve shakespearean translations - tested new translation
+src/main/java/com/translator/ShakespeareTranslatorService.java
+src/test/java/com/translator/ShakespeareTranslatorServiceUnitTest.java
+
+b00ded7f59f52609eb8882711f303b909d0057d6 As user I want to retrieve shakespearean translations
+src/main/java/com/translator/ShakespeareTranslatorService.java
+src/test/java/com/translator/ShakespeareTranslatorServiceUnitTest.java
+
+f575a180ab6f8701f01d9a27f35bd74e7065d2c5 As user I want to retrieve pokemon's description - test description of new pokemon
+src/main/java/com/translator/PokemonDescriptionProviderService.java
+src/main/java/com/translator/PokemonService.java
+src/test/java/com/translator/PokemonDescriptionProviderServiceUnitTest.java
+src/test/java/com/translator/PokemonServiceUnitTest.java
+
+ec855a4e00e0d8899d90d79c077043e40af81968 As user I want to retrieve pokemon's description - test description of new pokemon
+src/main/java/com/translator/PokemonService.java
+src/test/java/com/translator/PokemonServiceUnitTest.java
+
+e4705ccec761581c389a07eb579ddddc0dd08ff0 s user I want to retrieve pokemon's description
+.gitignore
+pom.xml
+src/main/java/com/translator/PokemonService.java
+src/test/java/com/translator/PokemonServiceUnitTest.java
+
+b7d5634c74d191aa9cd41e36bc883e5537ade21e init project
+
